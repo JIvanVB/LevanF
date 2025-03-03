@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">LevanF</string>
+    <string name="radial">Radial</string>
+    <string name="axial">Axial</string>
+    <string name="lineal">Lineal</string>
+    <string name="angular">Angular</string>
+    <string name="seguidor">Seguidor</string>
 </resources>
