@@ -23,8 +23,8 @@
     <!-- Imagen o icono -->
     <ImageView
         android:id="@+id/ivLogo"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="144dp"
+        android:layout_height="144dp"
         android:background="@android:color/darker_gray"
         android:layout_marginBottom="30dp" />
 
