@@ -8,8 +8,6 @@
     android:padding="20dp"
     android:background="@color/white">
 
-
-    <!-- Texto del título -->
     <TextView
         android:id="@+id/tvTitle"
         android:layout_width="wrap_content"
@@ -20,7 +18,7 @@
         android:textColor="@color/black"
         android:layout_marginBottom="20dp" />
 
-    <!-- Imagen o icono -->
+    
     <ImageView
         android:id="@+id/ivLogo"
         android:layout_width="144dp"
@@ -28,7 +26,6 @@
         android:background="@android:color/darker_gray"
         android:layout_marginBottom="30dp" />
 
-    <!-- Campo de usuario -->
     <EditText
         android:id="@+id/etUsuario"
         android:layout_width="210dp"
@@ -38,7 +35,7 @@
         android:textColorHint="@color/gray"
         android:layout_marginBottom="15dp" />
 
-    <!-- Campo de contraseña -->
+    
     <EditText
         android:id="@+id/etContrasena"
         android:layout_width="210dp"
@@ -49,7 +46,7 @@
         android:textColorHint="@color/gray"
         android:layout_marginBottom="20dp" />
 
-    <!-- Botón de entrar -->
+    
     <Button
         android:id="@+id/btnEntrar"
         android:layout_width="87dp"
