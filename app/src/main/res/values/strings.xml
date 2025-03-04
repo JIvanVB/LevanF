@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">LevanF</string>
+
     <string name="generar_svaj">Generar SVAJ</string>
     <string name="grados"> grados</string>
     <string name="tramos">Tramos</string>
@@ -11,4 +12,16 @@
     <string name="agregar_tramos">Agregar tramos +</string>
     <string name="total">"Total: "</string>
     <string name="eje_x">Eje X</string>
+
+    <string name="contrasena">Contraseña</string>
+    <string name="entrar">Entrar</string>
+    <string name="usuario">Usuario</string>
+    <string name="levanf">LevanF</string>
+
+    <string name="registrarse">Registrarse</string>
+    <string name="nombre">Nombre</string>
+    <string name="apellido">Apellido</string>
+    <string name="correo">Correo electrónico</string>
+    <string name="despl_cese_para_ver_m_s_gr_ficas_de_datos">Desplácese para ver más gráficas de datos</string>
+
 </resources>
