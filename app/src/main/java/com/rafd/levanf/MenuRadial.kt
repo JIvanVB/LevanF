@@ -15,8 +15,8 @@ class MenuRadial : AppCompatActivity() {
         binding = ActivityMenuRadialBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.btnBack.setOnClickListener {
-            val intent = Intent(this, MenuPrincipal::class.java)
+        binding.btnLineal.setOnClickListener {
+            val intent = Intent(this, Radial_LinealActivity::class.java)
             startActivity(intent)
         }
     }

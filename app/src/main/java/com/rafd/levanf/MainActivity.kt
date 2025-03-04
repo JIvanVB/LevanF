@@ -22,7 +22,11 @@ class MainActivity : AppCompatActivity() {
 
         val btnEntrar = findViewById<Button>(R.id.btnEntrar)
         btnEntrar.setOnClickListener {
-            val intent = Intent(this, GraphicsResults::class.java)
+            val intent = Intent(this, MenuPrincipal::class.java)
+            startActivity(intent)
+        }
+        findViewById<TextView>(R.id.tvregistro).setOnClickListener {
+            val intent = Intent(this, Registro::class.java)
             startActivity(intent)
         }
     }
