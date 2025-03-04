@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/main"
+    android:id="@+id/registerLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -8,54 +8,66 @@
     android:padding="20dp"
     android:background="@color/white">
 
+    <!-- Texto del título -->
     <TextView
-        android:id="@+id/tvTitle"
+        android:id="@+id/tvRegisterTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/levanf"
+        android:text="@string/registrarse"
         android:textSize="36sp"
         android:textStyle="bold"
         android:textColor="@color/black"
         android:layout_marginBottom="20dp" />
 
-    
+    <!-- Imagen o icono -->
     <ImageView
-        android:id="@+id/ivLogo"
+        android:id="@+id/ivRegisterLogo"
         android:layout_width="144dp"
         android:layout_height="144dp"
         android:background="@android:color/darker_gray"
         android:layout_marginBottom="30dp" />
 
+    <!-- Campo de Nombre -->
     <EditText
-        android:id="@+id/etUsuario"
+        android:id="@+id/etNombre"
         android:layout_width="210dp"
         android:layout_height="56dp"
-        android:hint="@string/usuario"
+        android:hint="@string/nombre"
         android:padding="10dp"
         android:textColorHint="@color/gray"
         android:layout_marginBottom="15dp" />
 
-    
+    <!-- Campo de Apellido -->
     <EditText
-        android:id="@+id/etContrasena"
+        android:id="@+id/etApellido"
         android:layout_width="210dp"
         android:layout_height="56dp"
-        android:hint="@string/contrasena"
-        android:inputType="textPassword"
+        android:hint="@string/apellido"
+        android:padding="10dp"
+        android:textColorHint="@color/gray"
+        android:layout_marginBottom="15dp" />
+
+    <!-- Campo de Correo -->
+    <EditText
+        android:id="@+id/etCorreo"
+        android:layout_width="210dp"
+        android:layout_height="56dp"
+        android:hint="@string/correo"
+        android:inputType="textEmailAddress"
         android:padding="10dp"
         android:textColorHint="@color/gray"
         android:layout_marginBottom="20dp" />
 
-    
+    <!-- Botón de registro -->
     <Button
-        android:id="@+id/btnEntrar"
-        android:layout_width="87dp"
+        android:id="@+id/btnRegistrar"
+        android:layout_width="100dp"
         android:layout_height="40dp"
-        android:text="@string/entrar"
+        android:text="@string/registrarse"
         android:textColor="@color/white"
         android:backgroundTint="@color/purple"
         android:padding="5dp"
         android:layout_gravity="center"
         android:layout_marginTop="10dp"/>
-
 </LinearLayout>
+
