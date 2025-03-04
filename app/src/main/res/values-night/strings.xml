@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="generar_svaj">Generar SVAJ</string>
+    <string name="grados"> grados</string>
+    <string name="tramos">Tramos</string>
+    <string name="radia_lineal">Radia - Lineal</string>
+    <string name="flecha_atras">flecha atras</string>
+    <string name="generaci_n_de_svaj">Generación de SVAJ</string>
+    <string name="segundos">Segundos</string>
+    <string name="gradosCap">Grados</string>
+    <string name="agregar_tramos">Agregar tramos +</string>
+    <string name="total">"Total: "</string>
+    <string name="eje_x">Eje X</string>
+</resources>

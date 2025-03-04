@@ -13,6 +13,12 @@
         android:theme="@style/Theme.LevanF"
         tools:targetApi="31">
         <activity
+            android:name=".GraphicsResults"
+            android:exported="false" />
+        <activity
+            android:name=".Registro"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
@@ -22,5 +28,4 @@
             </intent-filter>
         </activity>
     </application>
-
 </manifest>

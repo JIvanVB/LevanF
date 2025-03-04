@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:padding="8dp"
+    android:gravity="center">
+
+    <Spinner
+        android:id="@+id/segmentos"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:textAlignment="center"
+        android:entries="@array/segmentos"
+        android:backgroundTint="#7B1FA2"
+        />
+
+    <EditText
+        android:id="@+id/eje"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight=".35"
+        android:textAlignment="center"
+        android:hint="@string/eje_x"
+        android:backgroundTint="#7B1FA2"
+        android:gravity="center"
+        android:textSize="16sp"
+        android:inputType="number"/>
+
+    <Spinner
+        android:id="@+id/ecuaciones"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:backgroundTint="#7B1FA2"
+        android:textAlignment="center"
+        android:entries="@array/ecuaciones"
+        />
+
+</LinearLayout>
