@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MenuRadial">
+
+    <ImageButton android:id="@+id/btnBack"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:src="@drawable/baseline_arrow_back_24"
+        android:background="@android:color/transparent"
+
+        />
+
+    <TextView android:id="@+id/tvRadial"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:text="@string/radial"
+        android:layout_marginLeft="12dp"
+        />
+
+    <TextView android:id="@+id/tvSeguidor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="50dp"
+        android:textSize="32sp"
+        android:text="@string/seguidor"
+        android:textAlignment="center"
+        />
+
+    <ImageButton android:id="@+id/btnLineal"
+        android:layout_width="@dimen/ancho_imagen"
+        android:layout_height="@dimen/altura_imagen"
+        android:layout_gravity="center"
+        />
+
+    <TextView android:id="@+id/tvLineal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="24sp"
+        android:text="@string/lineal"
+        android:textAlignment="center"
+        android:layout_marginBottom="45dp"
+        />
+
+    <ImageButton android:id="@+id/btnAngular"
+        android:layout_width="@dimen/ancho_imagen"
+        android:layout_height="@dimen/altura_imagen"
+        android:layout_gravity="center"
+        />
+
+    <TextView android:id="@+id/tvAngular"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="24sp"
+        android:text="@string/angular"
+        android:textAlignment="center"
+        />
+</LinearLayout>
