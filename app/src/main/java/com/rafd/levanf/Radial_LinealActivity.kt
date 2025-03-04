@@ -43,7 +43,7 @@ class Radial_LinealActivity : AppCompatActivity() {
         listView.adapter = tramoAdapter
 
 
-        findViewById<Button>(R.id.generar).setOnClickListener {startActivity(Intent(this,SVAJ_Activity::class.java))}
+        findViewById<Button>(R.id.generar).setOnClickListener {startActivity(Intent(this,GraphicsResults::class.java))}
         findViewById<TextView>(R.id.agregarTramos).setOnClickListener {
             tramos.add(0,Tramo())
             tramoAdapter.notifyDataSetChanged()

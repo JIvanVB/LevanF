@@ -6,13 +6,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/main"
     android:orientation="vertical"
-
     tools:context=".Radial_LinealActivity">
 
 
     <ImageView
-        android:layout_width="32dp"
-        android:layout_height="32dp"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
         android:contentDescription="@string/flecha_atras"
         android:src="@drawable/flecha_atras_violeta"
         android:padding="6dp"

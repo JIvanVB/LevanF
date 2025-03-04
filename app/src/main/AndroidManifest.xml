@@ -13,6 +13,18 @@
         android:theme="@style/Theme.LevanF"
         tools:targetApi="31">
         <activity
+            android:name=".MenuRadial"
+            android:exported="false" />
+        <activity
+            android:name=".MenuPrincipal"
+            android:exported="false" />
+        <activity
+            android:name=".SVAJ_Activity"
+            android:exported="false" />
+        <activity
+            android:name=".Radial_LinealActivity"
+            android:exported="false" />
+        <activity
             android:name=".GraphicsResults"
             android:exported="false" />
         <activity
