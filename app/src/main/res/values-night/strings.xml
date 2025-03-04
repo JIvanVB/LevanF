@@ -1,5 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">LevanF</string>
     <string name="generar_svaj">Generar SVAJ</string>
     <string name="grados"> grados</string>
     <string name="tramos">Tramos</string>

@@ -1,10 +1,181 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main"
+    android:orientation="vertical"
+
     tools:context=".Radial_LinealActivity">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ImageView
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:contentDescription="@string/flecha_atras"
+        android:src="@drawable/flecha_atras_violeta"
+        android:padding="6dp"
+        android:layout_gravity="start"/>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/radia_lineal"
+        android:textSize="18sp"
+        android:padding="6dp"
+        android:layout_marginTop="8dp"/>
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/generaci_n_de_svaj"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:padding="10dp"
+        android:layout_marginTop="16dp"/>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#E1BEE7"
+        android:padding="16dp"
+        android:layout_marginHorizontal="20dp"
+        android:orientation="horizontal"
+        android:gravity="fill_horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/segundos"
+            android:textAlignment="center"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"/>
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/toggle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#7B1FA2"
+            app:track="@drawable/toggle_custom"
+
+            android:checked="false"
+            android:layout_marginHorizontal="24dp"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textAlignment="center"
+            android:text="@string/gradosCap"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"/>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_margin="16dp"
+        android:layout_marginHorizontal="20dp"
+        android:gravity="fill_horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/tramos"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:layout_weight="1"
+            />
+
+        <TextView
+            android:id="@+id/agregarTramos"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/agregar_tramos"
+            android:textSize="16sp"
+            android:textAlignment="textEnd"
+            android:layout_weight="1"
+            android:textColor="#7B1FA2"/>
+    </LinearLayout>
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#7B1FA2"
+        android:padding="6dp"
+        android:layout_margin="6dp"/>
+
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginTop="8dp"/>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:background="#E0E0E0"
+        android:layout_weight="0.1"
+
+        android:gravity="fill_vertical|center"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:layout_gravity="bottom"
+        android:backgroundTint="#BDBDBD"
+        android:shape="oval">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/total"
+                android:textSize="18sp"
+                android:textColor="@android:color/black"/>
+
+            <TextView
+                android:id="@+id/total"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:textColor="#7B1FA2"
+                tools:ignore="HardcodedText" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/grados"
+                android:textSize="18sp"
+                android:textColor="@android:color/black"/>
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/generar"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:text="@string/generar_svaj"
+            android:backgroundTint="#7B1FA2"
+            android:textColor="@android:color/white"
+            android:layout_marginTop="8dp"/>
+    </LinearLayout>
+
+</LinearLayout>
