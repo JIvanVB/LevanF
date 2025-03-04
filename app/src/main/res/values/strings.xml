@@ -10,4 +10,5 @@
     <string name="gradosCap">Grados</string>
     <string name="agregar_tramos">Agregar tramos +</string>
     <string name="total">"Total: "</string>
+    <string name="eje_x">Eje X</string>
 </resources>

@@ -106,7 +106,6 @@
             android:textColor="#7B1FA2"/>
     </LinearLayout>
 
-
     <View
         android:layout_width="match_parent"
         android:layout_height="2dp"
@@ -116,6 +115,7 @@
 
 
     <ListView
+        android:id="@+id/lista"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
@@ -173,9 +173,10 @@
             android:layout_width="wrap_content"
             android:layout_height="50dp"
             android:text="@string/generar_svaj"
-            android:backgroundTint="#7B1FA2"
+            android:backgroundTint="@color/cardview_dark_background"
             android:textColor="@android:color/white"
-            android:layout_marginTop="8dp"/>
+            android:layout_marginTop="8dp"
+            android:enabled="false"/>
     </LinearLayout>
 
 </LinearLayout>
