@@ -24,8 +24,9 @@
         <activity
             android:name=".Radial_LinealActivity"
             android:exported="false" />
+
         <activity
-            android:name=".GraphicsResults"
+            android:name=".GraphicsActivity"
             android:exported="false" />
         <activity
             android:name=".Registro"

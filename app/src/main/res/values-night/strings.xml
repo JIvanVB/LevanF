@@ -11,4 +11,6 @@
     <string name="agregar_tramos">Agregar tramos +</string>
     <string name="total">"Total: "</string>
     <string name="eje_x">Eje X</string>
+    <string name="svaj">SVAJ</string>
+    <string name="crear_perfil">Crear Perfil</string>
 </resources>
