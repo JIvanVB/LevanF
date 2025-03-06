@@ -30,5 +30,7 @@
     <string name="apellido">Apellido</string>
     <string name="correo">Correo electrónico</string>
     <string name="despl_cese_para_ver_m_s_gr_ficas_de_datos">Desplácese para ver más gráficas de datos</string>
+    <string name="svaj">SVAJ</string>
+    <string name="crear_perfil">Crear Perfil</string>
 
 </resources>

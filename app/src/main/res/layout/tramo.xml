@@ -38,4 +38,5 @@
         android:entries="@array/ecuaciones"
         />
 
+
 </LinearLayout>
