@@ -16,10 +16,12 @@ import androidx.core.view.WindowInsetsCompat
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
+import android.widget.FrameLayout
 import android.widget.Spinner
 import androidx.cardview.R.color.cardview_dark_background
 import androidx.core.content.ContextCompat
 import androidx.core.widget.doOnTextChanged
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 
 class Radial_LinealActivity : AppCompatActivity() {
 
@@ -37,6 +39,13 @@ class Radial_LinealActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+        BottomSheetBehavior.from(findViewById<FrameLayout>(R.id.bs)).apply {
+            peekHeight=200
+            this.state=BottomSheetBehavior.STATE_COLLAPSED
+
+        }
+
 
         listView = findViewById(R.id.lista)
         tramoAdapter = TramoAdapter(this, tramos)
