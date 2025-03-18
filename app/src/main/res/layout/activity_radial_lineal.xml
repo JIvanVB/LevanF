@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/main"
     android:orientation="vertical"
     tools:context=".Radial_LinealActivity">
 
@@ -16,14 +16,14 @@
         android:layout_height="wrap_content"
         android:elevation="4dp"
         app:navigationIcon="@drawable/ic_arrow_back"
-        app:titleTextColor="@color/black"/>
+        app:titleTextColor="@color/black" />
 
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:gravity="center_vertical"
+        android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar">
@@ -35,32 +35,32 @@
             android:layout_weight="1"
             android:paddingStart="16dp"
             android:text="@string/radia_lineal"
-            android:textSize="20sp"/>
+            android:textSize="20sp" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_marginHorizontal="20dp"
         android:orientation="vertical">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/generaci_n_de_svaj"
-            android:textSize="38sp"
+            android:layout_marginTop="16dp"
             android:gravity="center"
-            android:layout_marginTop="16dp"/>
+            android:text="@string/generaci_n_de_svaj"
+            android:textSize="38sp" />
 
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/round_rec"
-            android:padding="16dp"
             android:layout_marginTop="15dp"
+            android:background="@drawable/round_rec"
+            android:gravity="fill_horizontal"
             android:orientation="horizontal"
-            android:gravity="fill_horizontal">
+            android:padding="16dp">
 
             <TextView
                 android:layout_width="0dp"
@@ -69,58 +69,56 @@
                 android:text="@string/segundos"
                 android:textAlignment="center"
                 android:textColor="@android:color/black"
-                android:textSize="16sp"/>
+                android:textSize="16sp" />
 
             <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/toggle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:checked="true"
-                />
+                android:checked="true" />
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight=".5"
-                android:textAlignment="center"
                 android:text="@string/gradosCap"
+                android:textAlignment="center"
                 android:textColor="@android:color/black"
-                android:textSize="16sp"/>
+                android:textSize="16sp" />
         </LinearLayout>
 
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:layout_margin="16dp"
             android:layout_marginHorizontal="20dp"
-            android:gravity="center_vertical">
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@string/tramos"
-                android:textStyle="bold"
-                android:textSize="26sp"
                 android:layout_weight="1"
-                />
+                android:text="@string/tramos"
+                android:textSize="26sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/agregarTramos"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@string/agregar_tramos"
-                android:textSize="16sp"
-                android:textAlignment="textEnd"
                 android:layout_weight="1"
-                android:textColor="@color/purpuraDark"/>
+                android:text="@string/agregar_tramos"
+                android:textAlignment="textEnd"
+                android:textColor="@color/purpuraDark"
+                android:textSize="16sp" />
         </LinearLayout>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="2dp"
-            android:background="@color/purpuraDark"/>
+            android:background="@color/purpuraDark" />
 
 
         <ListView
@@ -128,51 +126,47 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginTop="8dp"
-            android:layout_weight="1" />
+            android:layout_weight="3" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:background="#E0E0E0"
-            android:layout_weight="0.1"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_total"
 
             android:gravity="fill_vertical|center"
             android:orientation="vertical"
-            android:padding="16dp"
-            android:layout_gravity="bottom"
-            android:backgroundTint="#BDBDBD"
-            android:shape="oval">
+            android:padding="16dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
                 android:gravity="center"
-                >
+                android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/total"
-                    android:textSize="18sp"
-                    android:textColor="@android:color/black"/>
+                    android:textColor="@android:color/black"
+                    android:textSize="18sp" />
 
                 <TextView
                     android:id="@+id/total"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="0"
+                    android:text="0 "
+                    android:textColor="#7B1FA2"
                     android:textSize="24sp"
                     android:textStyle="bold"
-                    android:textColor="#7B1FA2"
                     tools:ignore="HardcodedText" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/grados"
-                    android:textSize="18sp"
-                    android:textColor="@android:color/black"/>
+                    android:textColor="@android:color/black"
+                    android:textSize="18sp" />
 
             </LinearLayout>
 
@@ -180,11 +174,11 @@
                 android:id="@+id/generar"
                 android:layout_width="wrap_content"
                 android:layout_height="50dp"
-                android:text="@string/generar_svaj"
-                android:backgroundTint="@color/cardview_dark_background"
-                android:textColor="@android:color/white"
                 android:layout_marginTop="8dp"
-                android:enabled="false"/>
+                android:backgroundTint="@color/cardview_dark_background"
+                android:enabled="false"
+                android:text="@string/generar_svaj"
+                android:textColor="@android:color/white" />
         </LinearLayout>
 
     </LinearLayout>
