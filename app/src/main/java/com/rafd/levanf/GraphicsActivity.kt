@@ -1,9 +1,11 @@
 package com.rafd.levanf
 
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.Paint
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.*
 import com.github.mikephil.charting.data.*
@@ -13,6 +15,13 @@ class GraphicsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_graphics_results)
+
+        val toolbar = findViewById<Toolbar>(R.id.toolbar)
+
+        toolbar.setNavigationOnClickListener {
+            val intent = Intent(this, Radial_LinealActivity::class.java)
+            startActivity(intent)
+        }
 
         val desplazamientoChart = findViewById<LineChart>(R.id.Desplazamiento)
         val velocidadChart = findViewById<LineChart>(R.id.Velocidad)

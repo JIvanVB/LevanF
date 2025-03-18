@@ -17,6 +17,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.Spinner
+import androidx.appcompat.widget.Toolbar
 import androidx.cardview.R.color.cardview_dark_background
 import androidx.core.content.ContextCompat
 import androidx.core.widget.doOnTextChanged
@@ -36,6 +37,13 @@ class Radial_LinealActivity : AppCompatActivity() {
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
+        }
+
+        val toolbar = findViewById<Toolbar>(R.id.toolbar)
+
+        toolbar.setNavigationOnClickListener {
+            val intent = Intent(this, MenuRadial::class.java)
+            startActivity(intent)
         }
 
         listView = findViewById(R.id.lista)
