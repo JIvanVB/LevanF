@@ -16,16 +16,19 @@ import androidx.core.view.WindowInsetsCompat
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
+import android.widget.LinearLayout
 import android.widget.Spinner
 import androidx.cardview.R.color.cardview_dark_background
 import androidx.core.content.ContextCompat
 import androidx.core.widget.doOnTextChanged
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 
 class Radial_LinealActivity : AppCompatActivity() {
 
     private val tramos = mutableListOf<Tramo>()
     private lateinit var listView: ListView
     private lateinit var tramoAdapter: TramoAdapter
+    private lateinit var behaviour: BottomSheetBehavior<LinearLayout>
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,6 +45,9 @@ class Radial_LinealActivity : AppCompatActivity() {
         tramoAdapter = TramoAdapter(this, tramos)
         listView.adapter = tramoAdapter
 
+        // Permite controlar el estado del BottomSheet
+        val bottomSheetTotal = findViewById<LinearLayout>(R.id.bottomSheet)
+        behaviour = BottomSheetBehavior.from(bottomSheetTotal)
 
         findViewById<Button>(R.id.generar).setOnClickListener {startActivity(Intent(this,GraphicsActivity::class.java))}
         findViewById<TextView>(R.id.agregarTramos).setOnClickListener {
@@ -55,10 +61,13 @@ class Radial_LinealActivity : AppCompatActivity() {
                 .apply { findViewById<TextView>(R.id.total).text = this.toString() + " " }) {
             findViewById<Button>(R.id.generar).isEnabled = true
             findViewById<Button>(R.id.generar).setBackgroundColor(Color.parseColor("#7B1FA2"))
+            behaviour.state = BottomSheetBehavior.STATE_EXPANDED
         }
-        else{
-            findViewById<Button>(R.id.generar).isEnabled=true
-            findViewById<Button>(R.id.generar).setBackgroundColor(ContextCompat.getColor(this, cardview_dark_background))}
+        else {
+            findViewById<Button>(R.id.generar).isEnabled=false
+            findViewById<Button>(R.id.generar).setBackgroundColor(ContextCompat.getColor(this, cardview_dark_background))
+            behaviour.state = BottomSheetBehavior.STATE_COLLAPSED
+        }
     }
 
     inner class TramoAdapter(context: Context, private val tramos: List<Tramo>) :
