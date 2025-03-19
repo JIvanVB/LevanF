@@ -11,6 +11,9 @@ activity = "1.10.0"
 constraintlayout = "2.2.0"
 filamentAndroid = "1.17.1"
 mpandroidchart = "v3.1.0"
+googleGmsGoogleServices = "4.4.2"
+firebaseAuth = "23.2.0"
+firebaseDatabase = "21.0.0"
 
 
 [libraries]
@@ -26,9 +29,12 @@ androidx-constraintlayout = { group = "androidx.constraintlayout", name = "const
 filament-android = { group = "com.google.ar.sceneform", name = "filament-android", version.ref = "filamentAndroid" }
 
 mpandroidchart = { module = "com.github.PhilJay:MPAndroidChart", version.ref = "mpandroidchart" }
+firebase-auth = { group = "com.google.firebase", name = "firebase-auth", version.ref = "firebaseAuth" }
+firebase-database = { group = "com.google.firebase", name = "firebase-database", version.ref = "firebaseDatabase" }
 
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+google-gms-google-services = { id = "com.google.gms.google-services", version.ref = "googleGmsGoogleServices" }
 

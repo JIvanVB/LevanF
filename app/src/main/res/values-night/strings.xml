@@ -13,4 +13,8 @@
     <string name="eje_x">Eje X</string>
     <string name="svaj">SVAJ</string>
     <string name="crear_perfil">Crear Perfil</string>
+    <string name="logout">LogOut</string>
+    <string name="error_al_iniciar_sesi_n">Error al iniciar sesión</string>
+    <string name="contrase_a">Contraseña</string>
+    <string name="confirmar_contrase_a">Confirmar contraseña</string>
 </resources>

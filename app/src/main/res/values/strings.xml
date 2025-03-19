@@ -32,5 +32,9 @@
     <string name="despl_cese_para_ver_m_s_gr_ficas_de_datos">Desplácese para ver más gráficas de datos</string>
     <string name="svaj">SVAJ</string>
     <string name="crear_perfil">Crear Perfil</string>
+    <string name="logout">LogOut</string>
+    <string name="error_al_iniciar_sesi_n">Error al iniciar sesión</string>
+    <string name="contrase_a">Contraseña</string>
+    <string name="confirmar_contrase_a">Confirmar contraseña</string>
 
 </resources>

@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/registerLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center"
-    android:padding="20dp">
+    android:padding="20dp"
+    tools:context=".Registro">
 
-    <!-- Texto del título -->
     <TextView
         android:id="@+id/tvRegisterTitle"
         android:layout_width="wrap_content"
@@ -17,7 +18,6 @@
         android:textStyle="bold"
         android:layout_marginBottom="20dp" />
 
-    <!-- Imagen o icono -->
     <ImageView
         android:id="@+id/ivRegisterLogo"
         android:layout_width="144dp"
@@ -25,7 +25,6 @@
         android:background="@android:color/darker_gray"
         android:layout_marginBottom="30dp" />
 
-    <!-- Campo de Nombre -->
     <EditText
         android:id="@+id/etNombre"
         android:layout_width="210dp"
@@ -36,7 +35,6 @@
         android:backgroundTint="#7B1FA2"
         android:layout_marginBottom="15dp" />
 
-    <!-- Campo de Apellido -->
     <EditText
         android:id="@+id/etApellido"
         android:layout_width="210dp"
@@ -47,9 +45,8 @@
         android:backgroundTint="#7B1FA2"
         android:layout_marginBottom="15dp" />
 
-    <!-- Campo de Correo -->
     <EditText
-        android:id="@+id/etCorreo"
+        android:id="@+id/etrEmail"
         android:layout_width="210dp"
         android:layout_height="56dp"
         android:hint="@string/correo"
@@ -59,7 +56,33 @@
         android:backgroundTint="#7B1FA2"
         android:layout_marginBottom="20dp" />
 
-    <!-- Botón de registro -->
+    <EditText
+        android:id="@+id/etrPassword"
+        android:layout_width="210dp"
+        android:layout_height="56dp"
+        android:padding="10dp"
+        android:layout_marginBottom="20dp"
+        android:inputType="textPassword"
+        android:hint="@string/contrase_a"/>
+
+    <EditText
+        android:id="@+id/etrConfirmPassword"
+        android:layout_width="210dp"
+        android:layout_height="56dp"
+        android:padding="10dp"
+        android:layout_marginBottom="20dp"
+        android:inputType="textPassword"
+        android:hint="@string/confirmar_contrase_a"/>
+
+    <TextView
+        android:id="@+id/Error"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/error_al_iniciar_sesi_n"
+        android:textColor="#C71A1A"
+        android:visibility="invisible"
+        />
+
     <Button
         android:id="@+id/btnRegistrar"
         android:layout_width="100dp"

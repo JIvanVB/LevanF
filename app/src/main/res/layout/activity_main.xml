@@ -27,7 +27,7 @@
         android:layout_marginBottom="30dp" />
 
     <EditText
-        android:id="@+id/etUsuario"
+        android:id="@+id/etEmail"
         android:layout_width="210dp"
         android:layout_height="56dp"
         android:hint="@string/usuario"
@@ -37,7 +37,7 @@
 
     
     <EditText
-        android:id="@+id/etContrasena"
+        android:id="@+id/etPassword"
         android:layout_width="210dp"
         android:layout_height="56dp"
         android:hint="@string/contrasena"
@@ -46,9 +46,17 @@
         android:backgroundTint="#7B1FA2"
         android:layout_marginBottom="20dp" />
 
+    <TextView
+        android:id="@+id/tvError"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/error_al_iniciar_sesi_n"
+        android:textColor="#C71A1A"
+        android:visibility="invisible"
+        />
     
     <Button
-        android:id="@+id/btnEntrar"
+        android:id="@+id/btnLogin"
         android:layout_width="87dp"
         android:layout_height="40dp"
         android:text="@string/entrar"
