@@ -15,10 +15,13 @@ import androidx.core.view.WindowInsetsCompat
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
+import com.google.firebase.database.database
+import com.google.firebase.database.values
 
 class Registro : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
+    private val userRef = Firebase.database.getReference("Usuarios")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,8 +44,8 @@ class Registro : AppCompatActivity() {
         button.setOnClickListener {
             when {
                 email.text.isEmpty() ||
-                        password.text.isEmpty() ||
-                        confirmPassword.text.isEmpty() -> { errorTv.text = "Todos los campos deben de ser llenados";errorTv.visibility = View.VISIBLE }
+                password.text.isEmpty() ||
+                confirmPassword.text.isEmpty() -> { errorTv.text = "Todos los campos deben de ser llenados";errorTv.visibility = View.VISIBLE }
                 password.text.toString() != confirmPassword.text.toString() -> {errorTv.text = "Las contraseñas no coinciden";errorTv.visibility = View.VISIBLE}
                 password.text.toString().length < 6 -> {errorTv.text = "La contraseña debe de tener al menos 6 caracteres";errorTv.visibility = View.VISIBLE}
                 else -> {errorTv.visibility = View.INVISIBLE;signIn(email.text.toString(), password.text.toString())}
@@ -58,6 +61,7 @@ class Registro : AppCompatActivity() {
                     val user = auth.currentUser
                     val intent = Intent(this, MainActivity::class.java)
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    guardarDatos(email)
                     startActivity(intent)
                 } else {
                     Log.w("TAG", "signInWithEmail:failure", task.exception)
@@ -68,4 +72,15 @@ class Registro : AppCompatActivity() {
                 }
             }
     }
+
+    private fun guardarDatos(string: String) {
+        val valores = hashMapOf<String,String>(
+            "email" to findViewById<EditText>(R.id.etrEmail).text.toString(),
+            "nombre" to findViewById<EditText>(R.id.etNombre).text.toString(),
+            "apellido" to findViewById<EditText>(R.id.etApellido).text.toString()
+        )
+        userRef.child(string.substringBefore('@')).setValue(valores)
+
+    }
+
 }

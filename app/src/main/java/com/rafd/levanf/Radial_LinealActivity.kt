@@ -110,7 +110,7 @@ class Radial_LinealActivity : AppCompatActivity() {
                 override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
 
                     when (segmento.selectedItem.toString()) {
-                        "Det. Alto", "Det. Bajo" -> ecuacion.visibility = View.GONE
+                        "Det. Alto", "Det. Bajo" -> ecuacion.visibility = View.INVISIBLE
                         else -> ecuacion.visibility = View.VISIBLE
                     }
                     val tramoIndex = view?.tag as? Int ?: return

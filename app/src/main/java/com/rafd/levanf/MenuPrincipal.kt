@@ -23,7 +23,7 @@ class MenuPrincipal : AppCompatActivity() {
         binding = ActivityMenuPrincipalBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        findViewById<TextView>(R.id.userid).text = email
+        findViewById<TextView>(R.id.userid).text = email.substringBefore('@')
 
         findViewById<Button>(R.id.logout).setOnClickListener {
             Firebase.auth.signOut()

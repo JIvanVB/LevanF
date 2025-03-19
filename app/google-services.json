@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "959555153975",
+    "firebase_url": "https://levanf-60898-default-rtdb.firebaseio.com",
+    "project_id": "levanf-60898",
+    "storage_bucket": "levanf-60898.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:959555153975:android:ad6161b9033c193b58cfb2",
+        "android_client_info": {
+          "package_name": "com.rafd.levanf"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyByZZfljUphB-gPVmlwfD8cO09aYF4hGFU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
