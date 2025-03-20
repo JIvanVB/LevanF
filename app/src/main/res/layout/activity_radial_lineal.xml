@@ -15,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:elevation="4dp"
-        app:navigationIcon="@drawable/ic_arrow_back"
+        app:navigationIcon="@drawable/flecha_atras"
         app:titleTextColor="@color/black" />
 
     <LinearLayout
@@ -72,6 +72,7 @@
                 android:textSize="16sp" />
 
             <androidx.appcompat.widget.SwitchCompat
+                style="@style/Widget.Material3.CompoundButton.MaterialSwitch"
                 android:id="@+id/toggle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

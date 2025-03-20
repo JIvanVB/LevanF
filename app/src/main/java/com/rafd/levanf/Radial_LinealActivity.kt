@@ -16,6 +16,7 @@ import androidx.core.view.WindowInsetsCompat
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
+import android.widget.AutoCompleteTextView
 import android.widget.Spinner
 import androidx.appcompat.widget.Toolbar
 import androidx.cardview.R.color.cardview_dark_background
@@ -27,6 +28,7 @@ class Radial_LinealActivity : AppCompatActivity() {
     private val tramos = mutableListOf<Tramo>()
     private lateinit var listView: ListView
     private lateinit var tramoAdapter: TramoAdapter
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -77,47 +79,24 @@ class Radial_LinealActivity : AppCompatActivity() {
 
             val tramo = tramos[position]
 
-            val segmento: Spinner = view.findViewById(R.id.segmentos)
+            val segmento = view.findViewById<AutoCompleteTextView>(R.id.segmentos)
             val ejeXText: TextView = view.findViewById(R.id.eje)
-            val ecuacion: Spinner = view.findViewById(R.id.ecuaciones)
-
+            val ecuacion = view.findViewById<AutoCompleteTextView>(R.id.ecuaciones)
 
             view.tag = position
 
-            val segmentoAdapter = ArrayAdapter(
-                context,
-                android.R.layout.simple_spinner_item,
-                context.resources.getStringArray(R.array.segmentos)
-            )
-            segmentoAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            segmento.adapter = segmentoAdapter
-            val segmentoPosition = segmentoAdapter.getPosition(tramo.segmento)
-            segmento.setSelection(segmentoPosition)
-
+            segmento.setAdapter(ArrayAdapter(context, R.layout.item_op, resources.getStringArray(R.array.segmentos)))
             ejeXText.text = tramo.ejeX
+            ecuacion.setAdapter(ArrayAdapter(context, R.layout.item_op, resources.getStringArray(R.array.ecuaciones)))
 
-            val ecuacionAdapter = ArrayAdapter(
-                context,
-                android.R.layout.simple_spinner_item,
-                context.resources.getStringArray(R.array.ecuaciones)
-            )
-            ecuacionAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            ecuacion.adapter = ecuacionAdapter
-            val ecuacionPosition = ecuacionAdapter.getPosition(tramo.ecuacion)
-            ecuacion.setSelection(ecuacionPosition)
-
-            segmento.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-
-                    when (segmento.selectedItem.toString()) {
-                        "Det. Alto", "Det. Bajo" -> ecuacion.visibility = View.INVISIBLE
-                        else -> ecuacion.visibility = View.VISIBLE
-                    }
-                    val tramoIndex = view?.tag as? Int ?: return
-                    tramos[tramoIndex].segmento = segmento.selectedItem.toString()
+            segmento.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id ->
+                val tramoIndex = view.tag as? Int ?: return@OnItemClickListener
+                val selectedItem = parent.getItemAtPosition(position) as? String ?: return@OnItemClickListener
+                tramos[tramoIndex].ecuacion = selectedItem
+                when (selectedItem) {
+                    "Det. Alto", "Det. Bajo" -> ecuacion.visibility = View.INVISIBLE
+                    else -> ecuacion.visibility = View.VISIBLE
                 }
-
-                override fun onNothingSelected(parent: AdapterView<*>?) {}
             }
 
             ejeXText.doOnTextChanged { text, start, before, count ->
@@ -126,17 +105,16 @@ class Radial_LinealActivity : AppCompatActivity() {
                 suma()
             }
 
-            ecuacion.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                    val tramoIndex = view?.tag as? Int ?: return
-                    tramos[tramoIndex].ecuacion = ecuacion.selectedItem.toString()
-                }
-
-                override fun onNothingSelected(parent: AdapterView<*>?) = Unit
+            ecuacion.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id ->
+                val tramoIndex = view.tag as? Int ?: return@OnItemClickListener
+                val selectedItem = parent.getItemAtPosition(position) as? String ?: return@OnItemClickListener
+                tramos[tramoIndex].ecuacion = selectedItem
             }
+
             return view
         }
     }
+
 
 
     inner class Tramo(

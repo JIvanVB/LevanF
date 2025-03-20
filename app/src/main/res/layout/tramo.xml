@@ -2,41 +2,65 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:baselineAligned="false"
     android:orientation="horizontal"
     android:padding="8dp"
     android:gravity="center">
 
-    <Spinner
-        android:id="@+id/segmentos"
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_weight="1"
-        android:textAlignment="center"
-        android:entries="@array/segmentos"
-        android:backgroundTint="#7B1FA2"
-        />
+        app:endIconDrawable="@drawable/empty_drawable"
+        app:endIconMinSize="1px"
+        android:hint="@string/segmentos">
 
-    <EditText
-        android:id="@+id/eje"
+        <AutoCompleteTextView
+            android:id="@+id/segmentos"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="none"
+            android:layout_weight="1"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight=".35"
-        android:textAlignment="center"
+        android:layout_height="match_parent"
         android:hint="@string/eje_x"
-        android:backgroundTint="#7B1FA2"
-        android:gravity="center"
-        android:textSize="16sp"
-        android:inputType="number"/>
+        android:layout_weight=".65">
 
-    <Spinner
-        android:id="@+id/ecuaciones"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/eje"
+            android:backgroundTint="#7B1FA2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textAlignment="center"
+            android:gravity="center"
+            android:textSize="16sp"
+            android:inputType="number"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:backgroundTint="#7B1FA2"
-        android:textAlignment="center"
-        android:entries="@array/ecuaciones"
-        />
+        android:layout_height="match_parent"
+        android:hint="@string/ecuaciones"
+        app:endIconDrawable="@drawable/empty_drawable"
+        app:endIconMinSize="1px"
+        android:layout_weight="1">
+
+        <AutoCompleteTextView
+            android:id="@+id/ecuaciones"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="none"
+            android:layout_weight="1"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
 
 
 </LinearLayout>
