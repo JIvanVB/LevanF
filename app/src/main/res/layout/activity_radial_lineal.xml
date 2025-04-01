@@ -121,66 +121,24 @@
             android:layout_height="2dp"
             android:background="@color/purpuraDark" />
 
-
-        <ListView
-            android:id="@+id/lista"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginTop="8dp"
-            android:layout_weight="3" />
+            android:layout_height="match_parent">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:background="@drawable/bg_total"
+            <ListView
+                android:id="@+id/lista"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="8dp"
+                />
 
-            android:gravity="fill_vertical|center"
-            android:orientation="vertical"
-            android:padding="16dp">
-
-            <LinearLayout
+            <androidx.coordinatorlayout.widget.CoordinatorLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/total"
-                    android:textColor="@android:color/black"
-                    android:textSize="18sp" />
-
-                <TextView
-                    android:id="@+id/total"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="0 "
-                    android:textColor="#7B1FA2"
-                    android:textSize="24sp"
-                    android:textStyle="bold"
-                    tools:ignore="HardcodedText" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/grados"
-                    android:textColor="@android:color/black"
-                    android:textSize="18sp" />
-
-            </LinearLayout>
-
-            <Button
-                android:id="@+id/generar"
-                android:layout_width="wrap_content"
-                android:layout_height="50dp"
-                android:layout_marginTop="8dp"
-                android:backgroundTint="@color/cardview_dark_background"
-                android:enabled="false"
-                android:text="@string/generar_svaj"
-                android:textColor="@android:color/white" />
-        </LinearLayout>
+                android:layout_gravity="bottom">
+                <include layout="@layout/bottom_sheet_layout" />
+            </androidx.coordinatorlayout.widget.CoordinatorLayout>
+        </FrameLayout>
 
     </LinearLayout>
 
