@@ -24,9 +24,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.widget.doOnTextChanged
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.github.mikephil.charting.charts.LineChart
-import com.github.mikephil.charting.components.*
 import com.github.mikephil.charting.data.*
-import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 import kotlin.math.PI
 import kotlin.math.sin
 
@@ -82,7 +80,7 @@ class Radial_LinealActivity : AppCompatActivity() {
             findViewById<Button>(R.id.generar).isEnabled = true
             findViewById<Button>(R.id.generar).setBackgroundColor(Color.parseColor("#7B1FA2"))
             behaviour.state = BottomSheetBehavior.STATE_EXPANDED
-            val entries = calcularSubida(5f, tramos[0].ejeX.toIntOrNull()?: 90)
+            val entries = calcularSubida(tramos[0].altura.toFloatOrNull()?: 5f, tramos[0].ejeX.toIntOrNull()?: 90)
             graficarSubida(entries)
         }
         else {
@@ -133,6 +131,7 @@ class Radial_LinealActivity : AppCompatActivity() {
 
             val segmento = view.findViewById<AutoCompleteTextView>(R.id.segmentos)
             val ejeXText: TextView = view.findViewById(R.id.eje)
+            val altura: TextView = view.findViewById(R.id.altura)
             val ecuacion = view.findViewById<AutoCompleteTextView>(R.id.ecuaciones)
 
             view.tag = position
@@ -157,6 +156,11 @@ class Radial_LinealActivity : AppCompatActivity() {
                 suma()
             }
 
+            altura.doOnTextChanged { text, start, before, count ->
+                val tramoIndex = view.tag as? Int ?: return@doOnTextChanged
+                tramos[tramoIndex].altura = altura.text.toString()
+            }
+
             ecuacion.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id ->
                 val tramoIndex = view.tag as? Int ?: return@OnItemClickListener
                 val selectedItem = parent.getItemAtPosition(position) as? String ?: return@OnItemClickListener
@@ -172,6 +176,7 @@ class Radial_LinealActivity : AppCompatActivity() {
     inner class Tramo(
         var segmento: String = "Subida",
         var ejeX: String = "",
-        var ecuacion: String = "Cicloidal"
+        var ecuacion: String = "Cicloidal",
+        var altura: String = ""
     )
 }

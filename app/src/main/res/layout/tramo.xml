@@ -1,66 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:baselineAligned="false"
+    android:gravity="center"
     android:orientation="horizontal"
-    android:padding="8dp"
-    android:gravity="center">
+    android:padding="8dp">
 
     <com.google.android.material.textfield.TextInputLayout
         style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
+        android:hint="@string/segmentos"
         app:endIconDrawable="@drawable/empty_drawable"
-        app:endIconMinSize="1px"
-        android:hint="@string/segmentos">
+        app:endIconMinSize="1px">
 
         <AutoCompleteTextView
             android:id="@+id/segmentos"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="none"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:inputType="none" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:hint="@string/eje_x"
-        android:layout_weight=".65">
+        android:layout_weight=".65"
+        android:hint="@string/eje_x">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/eje"
-            android:backgroundTint="#7B1FA2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:textAlignment="center"
+            android:backgroundTint="#7B1FA2"
             android:gravity="center"
-            android:textSize="16sp"
-            android:inputType="number"/>
+            android:inputType="number"
+            android:textAlignment="center"
+            android:textSize="16sp" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
         android:layout_width="0dp"
         android:layout_height="match_parent"
+        android:layout_weight="1"
         android:hint="@string/ecuaciones"
         app:endIconDrawable="@drawable/empty_drawable"
-        app:endIconMinSize="1px"
-        android:layout_weight="1">
+        app:endIconMinSize="1px">
 
         <AutoCompleteTextView
             android:id="@+id/ecuaciones"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="none"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:inputType="none" />
     </com.google.android.material.textfield.TextInputLayout>
 
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight=".65"
+        android:hint="@string/altura">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/altura"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="#7B1FA2"
+            android:gravity="center"
+            android:inputType="number"
+            android:textAlignment="center"
+            android:textSize="16sp" />
+    </com.google.android.material.textfield.TextInputLayout>
 
 
 </LinearLayout>

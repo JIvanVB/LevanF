@@ -38,5 +38,7 @@
     <string name="confirmar_contrase_a">Confirmar contraseña</string>
     <string name="segmentos">Segmentos</string>
     <string name="ecuaciones">Ecuaciones</string>
+    <string name="altura">Altura</string>
+    <string name="velocidad">Velocidad (RPM)</string>
 
 </resources>
