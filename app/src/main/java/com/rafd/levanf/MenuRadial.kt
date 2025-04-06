@@ -8,6 +8,8 @@ import com.rafd.levanf.databinding.ActivityMenuRadialBinding
 
 class MenuRadial : AppCompatActivity() {
     private lateinit var binding: ActivityMenuRadialBinding
+    private lateinit var uuid: String
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -15,13 +17,15 @@ class MenuRadial : AppCompatActivity() {
         binding = ActivityMenuRadialBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        uuid = intent.extras?.getString("uuid") ?: "Default Email"
+
         binding.toolbar.setNavigationOnClickListener {
             val intent = Intent(this, MenuPrincipal::class.java)
             startActivity(intent)
         }
 
         binding.btnLineal.setOnClickListener {
-            val intent = Intent(this, Radial_LinealActivity::class.java)
+            val intent = Intent(this, Radial_LinealActivity::class.java).putExtra("uuid",uuid)
             startActivity(intent)
         }
     }

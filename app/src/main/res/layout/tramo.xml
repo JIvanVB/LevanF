@@ -1,84 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<HorizontalScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="80dp"
     android:baselineAligned="false"
     android:gravity="center"
     android:orientation="horizontal"
+    android:fillViewport="true"
     android:padding="8dp">
 
-    <com.google.android.material.textfield.TextInputLayout
-        style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-        android:layout_width="0dp"
+    <LinearLayout
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:hint="@string/segmentos"
-        app:endIconDrawable="@drawable/empty_drawable"
-        app:endIconMinSize="1px">
+        android:baselineAligned="false"
+        android:orientation="horizontal">
 
-        <AutoCompleteTextView
-            android:id="@+id/segmentos"
-            android:layout_width="match_parent"
+        <ImageView
+            android:id="@+id/limpiar"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:inputType="none" />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:padding="20dp"
+            android:layout_gravity="center"
+            android:background="@drawable/delete"
+            android:hint="@string/limpiar"/>
 
-    <com.google.android.material.textfield.TextInputLayout
-        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight=".65"
-        android:hint="@string/eje_x">
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/segmentoslo"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            android:layout_width="120dp"
+            android:layout_height="match_parent"
+            android:hint="@string/segmentos"
+            app:endIconDrawable="@drawable/empty_drawable"
+            app:endIconMinSize="1px">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/eje"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:backgroundTint="#7B1FA2"
-            android:gravity="center"
-            android:inputType="number"
-            android:textAlignment="center"
-            android:textSize="16sp" />
-    </com.google.android.material.textfield.TextInputLayout>
+            <AutoCompleteTextView
+                android:id="@+id/segmentos"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="none"
+                tools:ignore="LabelFor" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.textfield.TextInputLayout
-        style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:hint="@string/ecuaciones"
-        app:endIconDrawable="@drawable/empty_drawable"
-        app:endIconMinSize="1px">
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/ejelo"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+            android:layout_width="90dp"
+            android:layout_height="match_parent"
+            android:hint="@string/eje_x">
 
-        <AutoCompleteTextView
-            android:id="@+id/ecuaciones"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:inputType="none" />
-    </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/eje"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:backgroundTint="#7B1FA2"
+                android:gravity="center"
+                android:inputType="number"
+                android:textAlignment="center"
+                android:textSize="16sp"/>
+        </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.textfield.TextInputLayout
-        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight=".65"
-        android:hint="@string/altura">
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/ecuacionelo"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            android:layout_width="120dp"
+            android:layout_height="match_parent"
+            android:hint="@string/ecuaciones"
+            app:endIconDrawable="@drawable/empty_drawable"
+            app:endIconMinSize="1px">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/altura"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:backgroundTint="#7B1FA2"
-            android:gravity="center"
-            android:inputType="number"
-            android:textAlignment="center"
-            android:textSize="16sp" />
-    </com.google.android.material.textfield.TextInputLayout>
+            <AutoCompleteTextView
+                android:id="@+id/ecuaciones"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="none"
+                tools:ignore="LabelFor" />
+        </com.google.android.material.textfield.TextInputLayout>
 
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/alturalo"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+            android:layout_width="90dp"
+            android:layout_height="match_parent"
+            android:hint="@string/altura">
 
-</LinearLayout>
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/altura"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:backgroundTint="#7B1FA2"
+                android:gravity="center"
+                android:inputType="number"
+                android:textAlignment="center"
+                android:textSize="16sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+    </LinearLayout>
+
+</HorizontalScrollView>

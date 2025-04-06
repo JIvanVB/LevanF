@@ -40,5 +40,6 @@
     <string name="ecuaciones">Ecuaciones</string>
     <string name="altura">Altura</string>
     <string name="velocidad">Velocidad (RPM)</string>
+    <string name="limpiar">Limpiar</string>
 
 </resources>

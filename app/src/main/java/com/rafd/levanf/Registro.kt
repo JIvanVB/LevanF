@@ -17,6 +17,8 @@ import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 import com.google.firebase.database.database
 import com.google.firebase.database.values
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
 class Registro : AppCompatActivity() {
 
@@ -73,13 +75,15 @@ class Registro : AppCompatActivity() {
             }
     }
 
+    @OptIn(ExperimentalUuidApi::class)
     private fun guardarDatos(string: String) {
         val valores = hashMapOf<String,String>(
-            "email" to findViewById<EditText>(R.id.etrEmail).text.toString(),
-            "nombre" to findViewById<EditText>(R.id.etNombre).text.toString(),
-            "apellido" to findViewById<EditText>(R.id.etApellido).text.toString()
+            "nombre" to findViewById<EditText>(R.id.etNombre).text.toString().trim(),
+            "apellido" to findViewById<EditText>(R.id.etApellido).text.toString().trim(),
+            "email" to findViewById<EditText>(R.id.etrEmail).text.toString().trim()
         )
-        userRef.child(string.substringBefore('@')).setValue(valores)
+        val u = Uuid.random().toString()
+        userRef.child(u).setValue(valores)
 
     }
 
