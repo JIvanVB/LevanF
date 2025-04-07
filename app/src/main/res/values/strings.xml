@@ -41,5 +41,6 @@
     <string name="altura">Altura</string>
     <string name="limpiar">Limpiar</string>
     <string name="velocidad">Velocidad (RPM): </string>
+    <string name="tramos_guardados">Tramos Guardados</string>
 
 </resources>

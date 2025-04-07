@@ -8,11 +8,12 @@
     android:layout_height="match_parent"
     tools:context=".MenuRadial">
 
-    <androidx.appcompat.widget.Toolbar android:id="@+id/toolbar"
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:elevation="4dp"
-        app:navigationIcon="@drawable/ic_arrow_back"
+        app:navigationIcon="@drawable/flecha_atras_violeta"
         app:titleTextColor="@color/black"
         />
 

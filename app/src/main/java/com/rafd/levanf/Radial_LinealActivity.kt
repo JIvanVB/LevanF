@@ -22,6 +22,7 @@ import android.widget.ImageView
 import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.Toolbar
 import androidx.cardview.R.color.cardview_dark_background
 import androidx.core.content.ContextCompat
@@ -38,12 +39,16 @@ import kotlin.math.cos
 import kotlin.math.pow
 import kotlin.math.sin
 import androidx.core.graphics.toColorInt
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
 
 class Radial_LinealActivity : AppCompatActivity() {
 
     private val userRef = Firebase.database.getReference("Usuarios")
     private lateinit var uuid: String
-
+    private lateinit var uuidTramo: String
+    private lateinit var resultLauncher: androidx.activity.result.ActivityResultLauncher<Intent>
     private val tramos = ArrayList<Tramo>()
     private lateinit var listView: ListView
     private lateinit var tramoAdapter: TramoAdapter
@@ -60,6 +65,15 @@ class Radial_LinealActivity : AppCompatActivity() {
             systemBars.right,
             systemBars.bottom
         ); insets
+        }
+
+        resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == RESULT_OK) {
+                val data: Intent? = result.data
+                val returnedString = data?.getStringExtra("resultKey")
+                uuidTramo=returnedString.toString()
+                cargarTramos(uuidTramo)
+            }
         }
 
         uuid = intent.extras?.getString("uuid") ?: "no uuid"
@@ -94,11 +108,15 @@ class Radial_LinealActivity : AppCompatActivity() {
         findViewById<ImageView>(R.id.limpiarTramos).setOnClickListener {
             tramos.clear()
             tramoAdapter.notifyDataSetChanged()
-            Toast.makeText(this,"Tramos borrados!",Toast.LENGTH_SHORT)
+            Toast.makeText(this,"Tramos borrados!",Toast.LENGTH_SHORT).show()
         }
 
         findViewById<ImageView>(R.id.guardarTramo).setOnClickListener {
             guardarTramoGeneral()
+        }
+
+        findViewById<ImageView>(R.id.cargar).setOnClickListener {
+            resultLauncher.launch(Intent(this, TramosGuardadosActivity::class.java).putExtra("uuid",uuid))
         }
     }
 
@@ -157,8 +175,27 @@ class Radial_LinealActivity : AppCompatActivity() {
     private fun Radial_LinealActivity.guardarTramoGeneral() {
         //tramos.forEach { Log.d("Tramo", "Segmento: ${it.segmento}, Eje X: ${it.ejeX}, Ecuación: ${it.ecuacion}, Altura: ${it.altura}") }
         userRef.child(uuid).child("Tramos").push().setValue(tramos).addOnSuccessListener {
-            Toast.makeText(this,"Tramos guardados!",Toast.LENGTH_SHORT)
+            Toast.makeText(this,"Tramos guardados!",Toast.LENGTH_SHORT).show()
         }
+    }
+
+    fun Radial_LinealActivity.cargarTramos(tramosuuid: String) {
+        tramos.clear()
+        userRef.child(uuid).child("Tramos").child(tramosuuid).addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(data: DataSnapshot) =
+                data.let {
+                    it.children.forEach {
+                        tramos.add(Tramo(
+                            it.child("segmento").value.toString(),
+                            it.child("ejeX").value.toString(),
+                            it.child("ecuacion").value.toString(),
+                            it.child("altura").value.toString()
+                        ))
+                    }
+                    tramoAdapter.notifyDataSetChanged()
+                }
+            override fun onCancelled(error: DatabaseError) = error.toException().printStackTrace()
+        })
     }
 
     fun calcularVelocidad(altura: Float, beta: Int, rpm: Int): ArrayList<Entry> {
@@ -228,13 +265,6 @@ class Radial_LinealActivity : AppCompatActivity() {
                 notifyDataSetChanged()
             }
 
-            if(segmento.text.toString() == "Det. Alto" || segmento.text.toString() == "Det. Bajo"){
-
-                ec.visibility = View.INVISIBLE
-            }else{
-                ec.visibility = View.VISIBLE
-            }
-
             // Asignar valores iniciales
             segmento.setText(tramo.segmento, false)
             ejeXText.text = tramo.ejeX
@@ -293,6 +323,13 @@ class Radial_LinealActivity : AppCompatActivity() {
                     tramos[tramoIndex].ecuacion = selectedItem
                 }
 
+            if(segmento.text.toString() == "Det. Alto" || segmento.text.toString() == "Det. Bajo"){
+
+                ec.visibility = View.INVISIBLE
+            }else{
+                ec.visibility = View.VISIBLE
+            }
+
             return view
         }
     }
@@ -304,3 +341,5 @@ class Radial_LinealActivity : AppCompatActivity() {
         var altura: String = ""
     )
 }
+
+

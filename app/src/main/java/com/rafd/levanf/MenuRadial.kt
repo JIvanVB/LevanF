@@ -20,8 +20,7 @@ class MenuRadial : AppCompatActivity() {
         uuid = intent.extras?.getString("uuid") ?: "Default Email"
 
         binding.toolbar.setNavigationOnClickListener {
-            val intent = Intent(this, MenuPrincipal::class.java)
-            startActivity(intent)
+            finish()
         }
 
         binding.btnLineal.setOnClickListener {

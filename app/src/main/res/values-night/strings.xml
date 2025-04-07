@@ -20,4 +20,5 @@
     <string name="segmentos">Segmentos</string>
     <string name="ecuaciones">Ecuaciones</string>
     <string name="limpiar">Limpiar</string>
+    <string name="tramos_guardados">Tramos Guardados</string>
 </resources>
