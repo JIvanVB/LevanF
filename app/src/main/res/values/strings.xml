@@ -39,7 +39,7 @@
     <string name="segmentos">Segmentos</string>
     <string name="ecuaciones">Ecuaciones</string>
     <string name="altura">Altura</string>
-    <string name="velocidad">Velocidad (RPM)</string>
     <string name="limpiar">Limpiar</string>
+    <string name="velocidad">Velocidad (RPM): </string>
 
 </resources>

@@ -19,6 +19,7 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.AutoCompleteTextView
 import android.widget.ImageView
+import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
@@ -33,6 +34,8 @@ import com.google.firebase.Firebase
 import com.google.firebase.database.database
 
 import kotlin.math.PI
+import kotlin.math.cos
+import kotlin.math.pow
 import kotlin.math.sin
 import androidx.core.graphics.toColorInt
 
@@ -103,12 +106,10 @@ class Radial_LinealActivity : AppCompatActivity() {
         if (360 == tramos.sumOf { it.ejeX.toIntOrNull() ?: 0 }
                 .apply { findViewById<TextView>(R.id.total).text = this.toString() + " " }) {
             findViewById<Button>(R.id.generar).isEnabled = true
-            findViewById<Button>(R.id.generar).setBackgroundColor("#7B1FA2".toColorInt())
+            findViewById<Button>(R.id.generar).setBackgroundColor(Color.parseColor("#7B1FA2"))
+            val etVelocidad = findViewById<EditText>(R.id.etVelocidad)
             behaviour.state = BottomSheetBehavior.STATE_EXPANDED
-            val entries = calcularSubida(
-                tramos[0].altura.toFloatOrNull() ?: 5f,
-                tramos[0].ejeX.toIntOrNull() ?: 90
-            )
+            val entries = calcularSubida(tramos[0].altura.toFloatOrNull()?: 5f, tramos[0].ejeX.toIntOrNull()?: 90)
             graficarSubida(entries)
         } else {
             findViewById<Button>(R.id.generar).isEnabled = true
@@ -158,6 +159,54 @@ class Radial_LinealActivity : AppCompatActivity() {
         userRef.child(uuid).child("Tramos").push().setValue(tramos).addOnSuccessListener {
             Toast.makeText(this,"Tramos guardados!",Toast.LENGTH_SHORT)
         }
+    }
+
+    fun calcularVelocidad(altura: Float, beta: Int, rpm: Int): ArrayList<Entry> {
+        val teta = ArrayList<Float>()
+        val entries = ArrayList<Entry>()
+
+        for (x in 1..beta) {
+            teta.add(x.toFloat())
+        }
+
+        for (x in teta) {
+            val y = ((altura / beta) * (1 - cos(2 * PI * (x / beta)))) * rpm
+            entries.add(Entry(x, y.toFloat()))
+        }
+
+        return entries
+    }
+
+    fun calcularAceleracion(altura: Float, beta: Int, rpm: Int): ArrayList<Entry> {
+        val teta = ArrayList<Float>()
+        val entries = ArrayList<Entry>()
+
+        for (x in 1..beta) {
+            teta.add(x.toFloat())
+        }
+
+        for (x in teta) {
+            val y = 2 * PI * (altura / beta.toDouble().pow(2)) * sin(2 * PI * (x / beta)) * rpm.toDouble().pow(2)
+            entries.add(Entry(x, y.toFloat()))
+        }
+
+        return entries
+    }
+
+    fun calcularSacudimiento(altura: Float, beta: Int, rpm: Int): ArrayList<Entry> {
+        val teta = ArrayList<Float>()
+        val entries = ArrayList<Entry>()
+
+        for (x in 1..beta) {
+            teta.add(x.toFloat())
+        }
+
+        for (x in teta) {
+            val y = 4 * PI.pow(2) * (altura / beta.toDouble().pow(3)) * cos(2 * PI * (x / beta)) * rpm.toDouble().pow(3)
+            entries.add(Entry(x, y.toFloat()))
+        }
+
+        return entries
     }
 
     inner class TramoAdapter(context: Context, private val tramos: ArrayList<Tramo>) :
