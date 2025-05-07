@@ -4,44 +4,44 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
+import android.os.Parcel
+import android.os.Parcelable
 import android.view.LayoutInflater
-import android.widget.ArrayAdapter
-import android.widget.Button
-import android.widget.ListView
-import android.widget.TextView
-import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
-import android.widget.ImageView
+import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.ListView
+import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.cardview.R.color.cardview_dark_background
 import androidx.core.content.ContextCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.core.widget.doOnTextChanged
-import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.data.*
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.Firebase
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.database
-
 import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.pow
 import kotlin.math.sin
-import androidx.core.graphics.toColorInt
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.ValueEventListener
+
 
 class Radial_LinealActivity : AppCompatActivity() {
 
@@ -92,12 +92,12 @@ class Radial_LinealActivity : AppCompatActivity() {
         tramoAdapter = TramoAdapter(this, tramos)
         listView.adapter = tramoAdapter
 
-        // Prueba de
         val grafica = findViewById<LineChart>(R.id.graficaPruebas)
 
         findViewById<Button>(R.id.generar).setOnClickListener {
-            val intent = Intent(this, GraphicsActivity::class.java)
-            // Poner extras cuando tengamos todas las ecuaciones
+            val intent = Intent(this, GraphsActivity::class.java)
+            intent.putExtra("tramos", tramos)
+            intent.putExtra("rpm", findViewById<EditText>(R.id.etVelocidad).text.toString().toDouble())
             startActivity(intent)
         }
         findViewById<TextView>(R.id.agregarTramos).setOnClickListener {
@@ -127,7 +127,8 @@ class Radial_LinealActivity : AppCompatActivity() {
             findViewById<Button>(R.id.generar).setBackgroundColor(Color.parseColor("#7B1FA2"))
             val etVelocidad = findViewById<EditText>(R.id.etVelocidad)
             behaviour.state = BottomSheetBehavior.STATE_EXPANDED
-            val entries = calcularSubida(tramos[0].altura.toFloatOrNull()?: 5f, tramos[0].ejeX.toIntOrNull()?: 90)
+            val entries = calcularVelocidad(tramos[0].altura.toFloatOrNull()?: 5f, tramos[0].ejeX.toIntOrNull()?: 90,
+                etVelocidad.text.toString().toIntOrNull()?: 200)
             graficarSubida(entries)
         } else {
             findViewById<Button>(R.id.generar).isEnabled = true
@@ -199,19 +200,28 @@ class Radial_LinealActivity : AppCompatActivity() {
     }
 
     fun calcularVelocidad(altura: Float, beta: Int, rpm: Int): ArrayList<Entry> {
-        val teta = ArrayList<Float>()
+        val teta = ArrayList<Double>()
         val entries = ArrayList<Entry>()
+        val w = rpm.aRadianesSegundos();
 
         for (x in 1..beta) {
-            teta.add(x.toFloat())
+            teta.add(x.aRadianes())
         }
 
         for (x in teta) {
-            val y = ((altura / beta) * (1 - cos(2 * PI * (x / beta)))) * rpm
-            entries.add(Entry(x, y.toFloat()))
+            val y = ((altura / beta.aRadianes()) * (1 - cos(2 * PI * (x / beta.aRadianes())))) * w
+            entries.add(Entry(x.toFloat(), y.toFloat()))
         }
 
         return entries
+    }
+
+    fun Int.aRadianesSegundos(): Double {
+        return this * 2 * Math.PI / 60
+    }
+
+    fun Int.aRadianes(): Double {
+        return this * Math.PI / 180
     }
 
     fun calcularAceleracion(altura: Float, beta: Int, rpm: Int): ArrayList<Entry> {
@@ -229,6 +239,8 @@ class Radial_LinealActivity : AppCompatActivity() {
 
         return entries
     }
+
+
 
     fun calcularSacudimiento(altura: Float, beta: Int, rpm: Int): ArrayList<Entry> {
         val teta = ArrayList<Float>()
@@ -334,12 +346,41 @@ class Radial_LinealActivity : AppCompatActivity() {
         }
     }
 
-    inner class Tramo(
+
+    data class Tramo (
         var segmento: String = "Subida",
         var ejeX: String = "",
         var ecuacion: String = "Cicloidal",
         var altura: String = ""
-    )
+    ) : Parcelable {
+        constructor(parcel: Parcel) : this(
+            parcel.readString().toString(),
+            parcel.readString().toString(),
+            parcel.readString().toString(),
+            parcel.readString().toString()
+        )
+
+        override fun writeToParcel(parcel: Parcel, flags: Int) {
+            parcel.writeString(segmento)
+            parcel.writeString(ejeX)
+            parcel.writeString(ecuacion)
+            parcel.writeString(altura)
+        }
+
+        override fun describeContents(): Int {
+            return 0
+        }
+
+        companion object CREATOR : Parcelable.Creator<Tramo> {
+            override fun createFromParcel(parcel: Parcel): Tramo {
+                return Tramo(parcel)
+            }
+
+            override fun newArray(size: Int): Array<Tramo?> {
+                return arrayOfNulls(size)
+            }
+        }
+    }
 }
 
 

@@ -31,7 +31,7 @@
             android:name=".Radial_LinealActivity"
             android:exported="false" />
         <activity
-            android:name=".GraphicsActivity"
+            android:name=".GraphsActivity"
             android:exported="false" />
         <activity
             android:name=".Registro"
