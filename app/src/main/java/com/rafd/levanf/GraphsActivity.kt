@@ -10,11 +10,15 @@ import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.*
 import com.github.mikephil.charting.data.*
 import svaj.CalculadoraBajadaCicloidal
+import svaj.CalculadoraDetenimientoAlto
+import svaj.CalculadoraDetenimientoBajo
 import svaj.CalculadoraSVAJ
 import svaj.CalculadoraSubidaCicloidal
 
 class GraphsActivity : AppCompatActivity() {
-    var rpm: Double = 0.0
+    var alturaAcumulada: Double = 0.0
+    var alturaInicial = 0.0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_graphics_results)
@@ -41,7 +45,7 @@ class GraphsActivity : AppCompatActivity() {
         val tramos: ArrayList<Radial_LinealActivity.Tramo>
         if (extras != null) {
             tramos = extras.get("tramos") as ArrayList<Radial_LinealActivity.Tramo>
-            rpm = extras.get("rpm") as Double
+            val rpm = extras.get("rpm") as Double
 
             val entriesDesplazamiento = ArrayList<Entry>()
             val entriesVelocidad = ArrayList<Entry>()
@@ -56,6 +60,7 @@ class GraphsActivity : AppCompatActivity() {
                 )
                 loadChartData(desplazamientoChart, entriesDesplazamiento)
                 xAnterior += tramo.ejeX.toInt()
+                alturaInicial = alturaAcumulada
             }
 
             xAnterior = 0
@@ -94,11 +99,13 @@ class GraphsActivity : AppCompatActivity() {
                              calculadora: CalculadoraSVAJ, tipoGrafica:String, valorInicial: Int): ArrayList<Entry> {
         val teta = ArrayList<Double>()
         val beta = tramo.ejeX.toInt()
-        val altura = tramo.altura.toDouble()
+        var altura = tramo.altura.toDoubleOrNull()
+        if (altura == null) {
+            altura = 0.0
+        }
         val entries = ArrayList<Entry>()
         val w = rpm.aRadianesSegundos();
 
-        // change to start on last beta
         for (x in valorInicial..beta + valorInicial) {
             teta.add(x.aRadianes())
         }
@@ -106,7 +113,7 @@ class GraphsActivity : AppCompatActivity() {
         val betaRadianes = beta.aRadianes();
         for (x in teta) {
             val y = when (tipoGrafica) {
-                "desplazamiento" -> { calculadora.calcularDesplazamiento(x-valorInicial.aRadianes(), altura, betaRadianes) }
+                "desplazamiento" -> { calculadora.calcularDesplazamiento(x-valorInicial.aRadianes(), altura, betaRadianes, alturaInicial) }
                 "velocidad" -> { calculadora.calcularVelocidad(x-valorInicial.aRadianes(), altura, betaRadianes, w) }
                 "aceleracion" -> { calculadora.calcularAceleracion(x-valorInicial.aRadianes(), altura, betaRadianes, w) }
                 "sacudimiento" -> { calculadora.calcularSacudimiento(x-valorInicial.aRadianes(), altura, betaRadianes, w) }
@@ -133,19 +140,17 @@ class GraphsActivity : AppCompatActivity() {
         var calculadora: CalculadoraSVAJ = CalculadoraSubidaCicloidal()
         when (segmento) {
             "subida" -> {
+                alturaAcumulada += tramo.altura.toDouble()
                 if (ecuacion == "cicloidal") { calculadora = CalculadoraSubidaCicloidal() }
             }
             "bajada" -> {
+                alturaAcumulada -= tramo.altura.toDouble()
                 if (ecuacion == "cicloidal") {
                     calculadora = CalculadoraBajadaCicloidal()
                 }
             }
-            "detAlto" -> {
-                //
-            }
-            else -> {
-
-            }
+            "det. alto" -> { calculadora = CalculadoraDetenimientoAlto() }
+            else -> { calculadora = CalculadoraDetenimientoBajo() }
         }
 
         return calculadora
@@ -156,21 +161,20 @@ class GraphsActivity : AppCompatActivity() {
         lineChart.setTouchEnabled(true)
         lineChart.setPinchZoom(true)
 
-//        // Configuración de los ejes
-//        val xAxis = lineChart.xAxis
-//        xAxis.position = XAxis.XAxisPosition.BOTTOM
-//        xAxis.setDrawGridLines(true)
-//
-//        val yAxisLeft = lineChart.axisLeft
-//        yAxisLeft.setDrawGridLines(true)
-//        yAxisLeft.axisMinimum = 0f
-//
-//        val yAxisRight = lineChart.axisRight
-//        yAxisRight.isEnabled = false
-//
-//        // Configuración de la leyenda
-//        val legend = lineChart.legend
-//        legend.form = Legend.LegendForm.LINE
+        // Configuración de los ejes
+        val xAxis = lineChart.xAxis
+        xAxis.position = XAxis.XAxisPosition.BOTTOM
+        xAxis.setDrawGridLines(true)
+
+        val yAxisLeft = lineChart.axisLeft
+        yAxisLeft.setDrawGridLines(true)
+
+        val yAxisRight = lineChart.axisRight
+        yAxisRight.isEnabled = false
+
+        // Configuración de la leyenda
+        val legend = lineChart.legend
+        legend.form = Legend.LegendForm.LINE
 
         lineChart.post {
             val description = Description()

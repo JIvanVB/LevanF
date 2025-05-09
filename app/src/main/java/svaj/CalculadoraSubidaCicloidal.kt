@@ -6,8 +6,8 @@ import kotlin.math.pow
 import kotlin.math.sin
 
 class CalculadoraSubidaCicloidal: CalculadoraSVAJ {
-    override fun calcularDesplazamiento(x: Double, altura: Double, beta: Double): Double {
-        return altura * ((x / beta) - ((1 / (2 * PI)) * sin(2 * PI * (x / beta))))
+    override fun calcularDesplazamiento(x: Double, altura: Double, beta: Double, alturaInicial: Double): Double {
+        return altura * ((x / beta) - ((1 / (2 * PI)) * sin(2 * PI * (x / beta)))) + alturaInicial
     }
 
     override fun calcularVelocidad(x: Double, altura: Double, beta: Double, w: Double): Double {
