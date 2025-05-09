@@ -14,6 +14,9 @@ import svaj.CalculadoraDetenimientoAlto
 import svaj.CalculadoraDetenimientoBajo
 import svaj.CalculadoraSVAJ
 import svaj.CalculadoraSubidaCicloidal
+import svaj.GeneradorCalculadora
+import svaj.GeneradorCalculadoraBajada
+import svaj.GeneradorCalculadoraSubida
 
 class GraphsActivity : AppCompatActivity() {
     var alturaAcumulada: Double = 0.0
@@ -58,7 +61,7 @@ class GraphsActivity : AppCompatActivity() {
                 entriesDesplazamiento.addAll(
                     calcularDatosGrafica(tramo, rpm, calculadora, "desplazamiento", xAnterior)
                 )
-                loadChartData(desplazamientoChart, entriesDesplazamiento)
+                loadChartData(desplazamientoChart, entriesDesplazamiento, "Desplazamiento")
                 xAnterior += tramo.ejeX.toInt()
                 alturaInicial = alturaAcumulada
             }
@@ -69,7 +72,7 @@ class GraphsActivity : AppCompatActivity() {
                 entriesVelocidad.addAll(
                     calcularDatosGrafica(tramo, rpm, calculadora, "velocidad", xAnterior)
                 )
-                loadChartData(velocidadChart, entriesVelocidad)
+                loadChartData(velocidadChart, entriesVelocidad, "Velocidad")
                 xAnterior += tramo.ejeX.toInt()
             }
 
@@ -79,7 +82,7 @@ class GraphsActivity : AppCompatActivity() {
                 entriesAceleracion.addAll(
                     calcularDatosGrafica(tramo, rpm, calculadora, "aceleracion", xAnterior)
                 )
-                loadChartData(aceleracionChart, entriesAceleracion)
+                loadChartData(aceleracionChart, entriesAceleracion, "Aceleración")
                 xAnterior += tramo.ejeX.toInt()
             }
 
@@ -89,22 +92,27 @@ class GraphsActivity : AppCompatActivity() {
                 entriesSacudimiento.addAll(
                     calcularDatosGrafica(tramo, rpm, calculadora, "sacudimiento", xAnterior)
                 )
-                loadChartData(sacudimientoChart, entriesSacudimiento)
+                loadChartData(sacudimientoChart, entriesSacudimiento, "Sacudimiento")
                 xAnterior += tramo.ejeX.toInt()
             }
         }
     }
 
-    fun calcularDatosGrafica(tramo: Radial_LinealActivity.Tramo, rpm: Double,
-                             calculadora: CalculadoraSVAJ, tipoGrafica:String, valorInicial: Int): ArrayList<Entry> {
+    /**
+     * Calcula los datos a graficar de un tramo dado y regresa una lista con los puntos a gráficar
+     */
+    fun calcularDatosGrafica(
+        tramo: Radial_LinealActivity.Tramo, rpm: Double,
+        calculadora: CalculadoraSVAJ, tipoGrafica: String, valorInicial: Int
+    ): ArrayList<Entry> {
         val teta = ArrayList<Double>()
         val beta = tramo.ejeX.toInt()
-        var altura = tramo.altura.toDoubleOrNull()
-        if (altura == null) {
-            altura = 0.0
-        }
+        val altura = tramo.altura.toDoubleOrNull()?: 0.0
+        val segmento = tramo.segmento.lowercase()
         val entries = ArrayList<Entry>()
         val w = rpm.aRadianesSegundos();
+
+        alturaAcumulada += if (segmento == "subida") altura else -altura
 
         for (x in valorInicial..beta + valorInicial) {
             teta.add(x.aRadianes())
@@ -112,11 +120,12 @@ class GraphsActivity : AppCompatActivity() {
 
         val betaRadianes = beta.aRadianes();
         for (x in teta) {
+            // Realiza el calculo en base al tipo de gráfica
             val y = when (tipoGrafica) {
-                "desplazamiento" -> { calculadora.calcularDesplazamiento(x-valorInicial.aRadianes(), altura, betaRadianes, alturaInicial) }
-                "velocidad" -> { calculadora.calcularVelocidad(x-valorInicial.aRadianes(), altura, betaRadianes, w) }
-                "aceleracion" -> { calculadora.calcularAceleracion(x-valorInicial.aRadianes(), altura, betaRadianes, w) }
-                "sacudimiento" -> { calculadora.calcularSacudimiento(x-valorInicial.aRadianes(), altura, betaRadianes, w) }
+                "desplazamiento" -> { calculadora.calcularDesplazamiento(x - valorInicial.aRadianes(), altura, betaRadianes, alturaInicial) }
+                "velocidad" -> { calculadora.calcularVelocidad( x - valorInicial.aRadianes(), altura, betaRadianes, w) }
+                "aceleracion" -> { calculadora.calcularAceleracion( x - valorInicial.aRadianes(), altura, betaRadianes, w) }
+                "sacudimiento" -> { calculadora.calcularSacudimiento( x - valorInicial.aRadianes(), altura, betaRadianes, w ) }
                 else -> 0.0
             }
 
@@ -126,28 +135,34 @@ class GraphsActivity : AppCompatActivity() {
         return entries
     }
 
+    /**
+     * Covierte un valor de rpm a readianes / segundo
+     */
     fun Double.aRadianesSegundos(): Double {
         return this * 2 * Math.PI / 60
     }
 
+    /**
+     * Convierte un valor en grados a radianes
+     */
     fun Int.aRadianes(): Double {
         return this * Math.PI / 180
     }
 
+    /**
+     * Recibe un objeto de tramo y determina que tipo de calculadora requiere para generar la gráfica
+     * en base al segmento y el tipo de ecuación del tramo
+     */
     private fun obtenerCalculadora(tramo: Radial_LinealActivity.Tramo): CalculadoraSVAJ {
         val segmento = tramo.segmento.lowercase()
         val ecuacion = tramo.ecuacion.lowercase()
         var calculadora: CalculadoraSVAJ = CalculadoraSubidaCicloidal()
+        val generador: GeneradorCalculadora = if (segmento == "subida") GeneradorCalculadoraSubida()
+            else  GeneradorCalculadoraBajada()
+
         when (segmento) {
-            "subida" -> {
-                alturaAcumulada += tramo.altura.toDouble()
-                if (ecuacion == "cicloidal") { calculadora = CalculadoraSubidaCicloidal() }
-            }
-            "bajada" -> {
-                alturaAcumulada -= tramo.altura.toDouble()
-                if (ecuacion == "cicloidal") {
-                    calculadora = CalculadoraBajadaCicloidal()
-                }
+            "subida", "bajada" -> {
+                if (ecuacion == "cicloidal") { calculadora = generador.crearCalculadoraCicloidal() }
             }
             "det. alto" -> { calculadora = CalculadoraDetenimientoAlto() }
             else -> { calculadora = CalculadoraDetenimientoBajo() }
@@ -156,7 +171,10 @@ class GraphsActivity : AppCompatActivity() {
         return calculadora
     }
 
-    private fun setupLineChart(lineChart: LineChart, descText : String) {
+    /**
+     * Define parametros de configuración para desplegar las gráficas
+     */
+    private fun setupLineChart(lineChart: LineChart, descText: String) {
         // Habilitar interacciones
         lineChart.setTouchEnabled(true)
         lineChart.setPinchZoom(true)
@@ -203,9 +221,11 @@ class GraphsActivity : AppCompatActivity() {
 
     }
 
-
-    private fun loadChartData(lineChart: LineChart, entries: ArrayList<Entry>) {
-        val dataSet = LineDataSet(entries, "Desplazamiento s (mm)").apply {
+    /**
+     * Recibe los datos a incertar en la gráfica y la dibuja
+     */
+    private fun loadChartData(lineChart: LineChart, entries: ArrayList<Entry>, nombreGrafica: String) {
+        val dataSet = LineDataSet(entries, nombreGrafica).apply {
             color = Color.BLUE
             valueTextColor = Color.BLACK
             lineWidth = 3f
@@ -218,4 +238,3 @@ class GraphsActivity : AppCompatActivity() {
         lineChart.invalidate()
     }
 }
-

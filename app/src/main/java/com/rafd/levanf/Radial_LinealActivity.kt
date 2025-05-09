@@ -28,7 +28,6 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.widget.doOnTextChanged
-import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.data.*
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.textfield.TextInputLayout
@@ -37,11 +36,6 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.database
-import kotlin.math.PI
-import kotlin.math.cos
-import kotlin.math.pow
-import kotlin.math.sin
-
 
 class Radial_LinealActivity : AppCompatActivity() {
 
@@ -53,6 +47,7 @@ class Radial_LinealActivity : AppCompatActivity() {
     private lateinit var listView: ListView
     private lateinit var tramoAdapter: TramoAdapter
     private lateinit var behaviour: BottomSheetBehavior<LinearLayout>
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -92,14 +87,14 @@ class Radial_LinealActivity : AppCompatActivity() {
         tramoAdapter = TramoAdapter(this, tramos)
         listView.adapter = tramoAdapter
 
-        val grafica = findViewById<LineChart>(R.id.graficaPruebas)
-
+        // Envia los tramos y la velocidad a la pantalla que genera las gráficas
         findViewById<Button>(R.id.generar).setOnClickListener {
             val intent = Intent(this, GraphsActivity::class.java)
             intent.putExtra("tramos", tramos)
             intent.putExtra("rpm", findViewById<EditText>(R.id.etVelocidad).text.toString().toDouble())
             startActivity(intent)
         }
+
         findViewById<TextView>(R.id.agregarTramos).setOnClickListener {
             tramos.add( Tramo())
             tramoAdapter.notifyDataSetChanged()
@@ -118,18 +113,21 @@ class Radial_LinealActivity : AppCompatActivity() {
         findViewById<ImageView>(R.id.cargar).setOnClickListener {
             resultLauncher.launch(Intent(this, TramosGuardadosActivity::class.java).putExtra("uuid",uuid))
         }
+
+        findViewById<EditText>(R.id.etVelocidad).doOnTextChanged { text, _, _, _ ->
+            verificarDatos()
+        }
     }
 
-    fun suma() {
-        if (360 == tramos.sumOf { it.ejeX.toIntOrNull() ?: 0 }
-                .apply { findViewById<TextView>(R.id.total).text = this.toString() + " " }) {
+    /**
+     * Verifica que los datos ingresados sean validos y habilita el boton para graficar en caso
+     * de que lo sean
+     */
+    fun verificarDatos() {
+        if (datosValidos()) {
             findViewById<Button>(R.id.generar).isEnabled = true
             findViewById<Button>(R.id.generar).setBackgroundColor(Color.parseColor("#7B1FA2"))
-            val etVelocidad = findViewById<EditText>(R.id.etVelocidad)
             behaviour.state = BottomSheetBehavior.STATE_EXPANDED
-            val entries = calcularVelocidad(tramos[0].altura.toFloatOrNull()?: 5f, tramos[0].ejeX.toIntOrNull()?: 90,
-                etVelocidad.text.toString().toIntOrNull()?: 200)
-            graficarSubida(entries)
         } else {
             findViewById<Button>(R.id.generar).isEnabled = true
             findViewById<Button>(R.id.generar).setBackgroundColor(
@@ -142,35 +140,50 @@ class Radial_LinealActivity : AppCompatActivity() {
         }
     }
 
-    fun graficarSubida(entries: ArrayList<Entry>) {
-        val dataSet = LineDataSet(entries, "Desplazamiento s (mm)").apply {
-            color = Color.BLUE
-            valueTextColor = Color.BLACK
-            lineWidth = 3f
-            setDrawCircles(false)
-            setDrawValues(false)
+    /**
+     * Regresa true si todos los campos necesarios para realizar las operaciones son rellenados con
+     * datos correctos, false en caso contrario
+     */
+    fun datosValidos(): Boolean {
+        var alturaAcumulada = 0.0
+        var alturasValidas = true
+        var segmentosValidos = true
+
+        //var segmentoAnterior = ""
+        for (tramo in tramos) {
+            val altura = tramo.altura.toDoubleOrNull()?: 0.0
+            val segmento = tramo.segmento.lowercase()
+
+            when (segmento) {
+                "subida" -> {
+                    alturasValidas = alturasValidas && altura > 0.0
+                    //segmentosValidos = segmentosValidos && segmentoAnterior.isNotEmpty() && segmentoAnterior != "det. bajo"
+                    alturaAcumulada += altura
+                }
+                "bajada" -> {
+                    alturasValidas = alturasValidas && altura > 0.0
+                    //segmentosValidos = segmentosValidos && segmentoAnterior.isNotEmpty() && segmentoAnterior != "det. alto"
+                            //&& alturaAcumulada != 0.0
+                    alturaAcumulada -= altura
+                }
+                "det. alto" -> {
+                    //segmentosValidos = segmentosValidos && segmentoAnterior.isNotEmpty() && segmentoAnterior != "det. alto"
+                            //&& segmentoAnterior != "det. bajo" && alturaAcumulada != 0.0
+                }
+                "det. bajo" -> {
+                    //segmentosValidos = segmentosValidos && segmentoAnterior.isNotEmpty() && segmentoAnterior != "det. alto"
+                            //&& segmentoAnterior != "det. bajo" && alturaAcumulada == 0.0
+                }
+            }
+            //segmentoAnterior = segmento
         }
 
-        val lineData = LineData(dataSet)
-        val grafica = findViewById<LineChart>(R.id.graficaPruebas)
-        grafica.data = lineData
-        grafica.invalidate()
-    }
-
-    fun calcularSubida(altura: Float, beta: Int): ArrayList<Entry> {
-        val teta = ArrayList<Float>()
-        val entries = ArrayList<Entry>()
-
-        for (x in 1..beta) {
-            teta.add(x.toFloat())
-        }
-
-        for (x in teta) {
-            val y = altura * ((x / beta) - ((1 / (2 * PI)) * sin(2 * PI * (x / beta))))
-            entries.add(Entry(x, y.toFloat()))
-        }
-
-        return entries
+        return 360 == tramos.sumOf { it.ejeX.toIntOrNull() ?: 0 }
+             .apply { findViewById<TextView>(R.id.total).text = this.toString() + " " }
+                && alturaAcumulada == 0.0
+                && findViewById<EditText>(R.id.etVelocidad).text.toString().isNotEmpty()
+                && alturasValidas
+                && segmentosValidos
     }
 
     private fun Radial_LinealActivity.guardarTramoGeneral() {
@@ -197,65 +210,6 @@ class Radial_LinealActivity : AppCompatActivity() {
                 }
             override fun onCancelled(error: DatabaseError) = error.toException().printStackTrace()
         })
-    }
-
-    fun calcularVelocidad(altura: Float, beta: Int, rpm: Int): ArrayList<Entry> {
-        val teta = ArrayList<Double>()
-        val entries = ArrayList<Entry>()
-        val w = rpm.aRadianesSegundos();
-
-        for (x in 1..beta) {
-            teta.add(x.aRadianes())
-        }
-
-        for (x in teta) {
-            val y = ((altura / beta.aRadianes()) * (1 - cos(2 * PI * (x / beta.aRadianes())))) * w
-            entries.add(Entry(x.toFloat(), y.toFloat()))
-        }
-
-        return entries
-    }
-
-    fun Int.aRadianesSegundos(): Double {
-        return this * 2 * Math.PI / 60
-    }
-
-    fun Int.aRadianes(): Double {
-        return this * Math.PI / 180
-    }
-
-    fun calcularAceleracion(altura: Float, beta: Int, rpm: Int): ArrayList<Entry> {
-        val teta = ArrayList<Float>()
-        val entries = ArrayList<Entry>()
-
-        for (x in 1..beta) {
-            teta.add(x.toFloat())
-        }
-
-        for (x in teta) {
-            val y = 2 * PI * (altura / beta.toDouble().pow(2)) * sin(2 * PI * (x / beta)) * rpm.toDouble().pow(2)
-            entries.add(Entry(x, y.toFloat()))
-        }
-
-        return entries
-    }
-
-
-
-    fun calcularSacudimiento(altura: Float, beta: Int, rpm: Int): ArrayList<Entry> {
-        val teta = ArrayList<Float>()
-        val entries = ArrayList<Entry>()
-
-        for (x in 1..beta) {
-            teta.add(x.toFloat())
-        }
-
-        for (x in teta) {
-            val y = 4 * PI.pow(2) * (altura / beta.toDouble().pow(3)) * cos(2 * PI * (x / beta)) * rpm.toDouble().pow(3)
-            entries.add(Entry(x, y.toFloat()))
-        }
-
-        return entries
     }
 
     inner class TramoAdapter(context: Context, private val tramos: ArrayList<Tramo>) :
@@ -318,13 +272,14 @@ class Radial_LinealActivity : AppCompatActivity() {
             ejeXText.doOnTextChanged { text, _, _, _ ->
                 val tramoIndex = view.tag as? Int ?: return@doOnTextChanged
                 tramos[tramoIndex].ejeX = text.toString()
-                suma()
+                verificarDatos()
             }
 
             // Manejar cambios en altura
             altura.doOnTextChanged { text, _, _, _ ->
                 val tramoIndex = view.tag as? Int ?: return@doOnTextChanged
                 tramos[tramoIndex].altura = text.toString()
+                verificarDatos()
             }
 
             // Manejar cambios en ecuación
@@ -333,6 +288,7 @@ class Radial_LinealActivity : AppCompatActivity() {
                     val tramoIndex = view.tag as? Int ?: return@OnItemClickListener
                     val selectedItem = parent.getItemAtPosition(position).toString()
                     tramos[tramoIndex].ecuacion = selectedItem
+                    verificarDatos()
                 }
 
             if(segmento.text.toString() == "Det. Alto" || segmento.text.toString() == "Det. Bajo"){
@@ -382,5 +338,3 @@ class Radial_LinealActivity : AppCompatActivity() {
         }
     }
 }
-
-
