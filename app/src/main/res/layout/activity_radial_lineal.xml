@@ -120,8 +120,6 @@
                     android:hint="@string/velocidad"
                     android:textColor="@color/black_select"
                     app:boxStrokeColor="@color/black_select"
-                    app:boxStrokeWidth="1dp"
-                    app:boxStrokeWidthFocused="2dp"
                     app:hintTextColor="@color/black_select">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -131,6 +129,7 @@
                         android:gravity="center"
                         android:textAlignment="center"
                         android:textSize="16sp"
+                        android:background="@drawable/round_input"
                         android:textColor="@color/black"
                         android:inputType="number"/>
 

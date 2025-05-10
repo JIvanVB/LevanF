@@ -24,13 +24,26 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.database
 
+/**
+ * VerTramosActivity es la actividad que muestra los detalles de un tramo específico.
+ * Utiliza Firebase Realtime Database para recuperar los detalles del tramo.
+ */
 class VerTramosActivity : AppCompatActivity() {
 
+    // Lista para almacenar los tramos
     private val tramos = ArrayList<Tramo>()
+
+    // Referencia a la base de datos de Firebase
     private val userRef = Firebase.database.getReference("Usuarios")
+
+    // UUID del usuario y el tramo seleccionado
     private lateinit var uuid: String
     private lateinit var eltramo: String
 
+    /**
+     * Metodo llamado cuando se crea la actividad.
+     * Configura la interfaz de usuario y los listeners de eventos.
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -40,39 +53,57 @@ class VerTramosActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+        // Obtiene el UUID del usuario y el tramo seleccionado de los extras del Intent
         uuid = intent.extras?.getString("uuid") ?: "no uuid"
         eltramo = intent.extras?.getString("eltramo") ?: "no tramo"
         val t = userRef.child(uuid).child("Tramos").child(eltramo)
 
+        // Configura la toolbar
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
-
         toolbar.setNavigationOnClickListener {
             finish()
         }
 
-        val tramoadapter=TramoAdapter(this,tramos)
+        // Configura el adaptador para la lista de tramos
+        val tramoadapter = TramoAdapter(this, tramos)
+
+        // Configura un listener para obtener los detalles del tramo desde la base de datos
         t.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(data: DataSnapshot) =
                 data.let {
                     it.children.forEach {
-                        tramos.add(Tramo(
-                            it.child("segmento").value.toString(),
-                            it.child("ejeX").value.toString(),
-                            it.child("ecuacion").value.toString(),
-                            it.child("altura").value.toString()))
+                        tramos.add(
+                            Tramo(
+                                it.child("segmento").value.toString(),
+                                it.child("ejeX").value.toString(),
+                                it.child("ecuacion").value.toString(),
+                                it.child("altura").value.toString()
+                            )
+                        )
                     }
                     tramoadapter.notifyDataSetChanged()
                 }
+
             override fun onCancelled(error: DatabaseError) = error.toException().printStackTrace()
         })
 
-        findViewById<TextView>(R.id.conjunto).text=eltramo
-        findViewById<ListView>(R.id.lista).adapter=tramoadapter
+        // Configura el texto del tramo en la interfaz de usuario
+        findViewById<TextView>(R.id.conjunto).text = eltramo
 
+        // Configura el adaptador para la lista de tramos
+        findViewById<ListView>(R.id.lista).adapter = tramoadapter
     }
+
+    /**
+     * Adaptador personalizado para la lista de tramos.
+     */
     inner class TramoAdapter(context: Context, private val tramos: ArrayList<Tramo>) :
         ArrayAdapter<Tramo>(context, 0, tramos) {
 
+        /**
+         * Metodo para obtener la vista de un elemento de la lista.
+         */
         override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
             val view =
                 convertView ?: LayoutInflater.from(context).inflate(R.layout.tramo, parent, false)
@@ -85,7 +116,7 @@ class VerTramosActivity : AppCompatActivity() {
             val altura: TextView = view.findViewById(R.id.altura)
             val ec = view.findViewById<TextInputLayout>(R.id.ecuacionelo)
 
-            view.findViewById<ImageView>(R.id.limpiar).visibility=View.GONE
+            view.findViewById<ImageView>(R.id.limpiar).visibility = View.GONE
 
             // Asignar valores iniciales
             segmento.setText(tramo.segmento, false)
@@ -144,10 +175,9 @@ class VerTramosActivity : AppCompatActivity() {
                     tramos[tramoIndex].ecuacion = selectedItem
                 }
 
-            if(segmento.text.toString() == "Det. Alto" || segmento.text.toString() == "Det. Bajo"){
-
+            if (segmento.text.toString() == "Det. Alto" || segmento.text.toString() == "Det. Bajo") {
                 ec.visibility = View.INVISIBLE
-            }else{
+            } else {
                 ec.visibility = View.VISIBLE
             }
 
@@ -155,6 +185,9 @@ class VerTramosActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Clase que representa un tramo.
+     */
     inner class Tramo(
         var segmento: String = "Subida",
         var ejeX: String = "",
