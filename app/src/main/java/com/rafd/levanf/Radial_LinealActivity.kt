@@ -172,6 +172,7 @@ class Radial_LinealActivity : AppCompatActivity() {
         var alturasValidas = true
         var segmentosValidos = true
 
+        var segmentoAnterior = ""
         for (tramo in tramos) {
             val altura = tramo.altura.toDoubleOrNull() ?: 0.0
             val segmento = tramo.segmento.lowercase()
@@ -183,13 +184,21 @@ class Radial_LinealActivity : AppCompatActivity() {
                 }
                 "bajada" -> {
                     alturasValidas = alturasValidas && altura > 0.0
+                    segmentosValidos = segmentosValidos && (segmentoAnterior != "det. bajo")
+                            && alturaAcumulada > 0.0
                     alturaAcumulada -= altura
                 }
                 "det. alto" -> {
+                    segmentosValidos = segmentosValidos && segmentoAnterior != "det. alto"
+                            && segmentoAnterior != "det. bajo" && alturaAcumulada != 0.0
                 }
                 "det. bajo" -> {
+                    segmentosValidos = segmentosValidos && segmentoAnterior != "det. alto"
+                            && segmentoAnterior != "det. bajo" && alturaAcumulada == 0.0
+                            || segmentoAnterior.isEmpty()
                 }
             }
+            segmentoAnterior = segmento
         }
 
         return 360 == tramos.sumOf { it.ejeX.toIntOrNull() ?: 0 }
@@ -292,10 +301,18 @@ class Radial_LinealActivity : AppCompatActivity() {
                     val selectedItem = parent.getItemAtPosition(position).toString()
                     tramos[tramoIndex].segmento = selectedItem
                     val ec = view.findViewById<TextInputLayout>(R.id.ecuacionelo)
+                    val alturaTexto = view.findViewById<TextInputLayout>(R.id.alturalo)
                     when (selectedItem) {
-                        "Det. Alto", "Det. Bajo" -> ec.visibility = View.INVISIBLE
-                        else -> ec.visibility = View.VISIBLE
+                        "Det. Alto", "Det. Bajo" -> {
+                            ec.visibility = View.INVISIBLE
+                            alturaTexto.visibility = View.INVISIBLE
+                        }
+                        else -> {
+                            ec.visibility = View.VISIBLE
+                            alturaTexto.visibility = View.VISIBLE
+                        }
                     }
+                    verificarDatos()
                 }
 
             // Manejar cambios en ejeX

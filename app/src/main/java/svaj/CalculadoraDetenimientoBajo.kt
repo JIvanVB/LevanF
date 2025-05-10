@@ -1,5 +1,8 @@
 package svaj
 
+/**
+ * Calculadora para graficar el detenimiento bajo de una leva
+ */
 class CalculadoraDetenimientoBajo: CalculadoraSVAJ {
     override fun calcularDesplazamiento(x: Double, altura: Double, beta: Double, alturaInicial: Double): Double {
         return 0.0
